@@ -27,7 +27,7 @@ const rand = (min, max) => Math.random() * (max - min) + min;
     let progress     = 0;         // 0 → 100
     let animId       = null;
     let startTime    = null;
-    const DURATION   = 2800;      // ms até chegar em 100%
+    const DURATION   = 800;      // ms até chegar em 100%
 
     function drawWave(t) {
         ctx.clearRect(0, 0, W, H);
@@ -297,17 +297,19 @@ const rand = (min, max) => Math.random() * (max - min) + min;
     }
 
     // Dispara quando visível
+    // Dispara quando visível
     const observer = new IntersectionObserver(entries => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const t      = parseInt(entry.target.dataset.countTarget);
-                const suffix = entry.target.id === 'statQual' ? '%' : '+';
+                // Modificado aqui: verifica se contém o ID de clientes para colocar '+', caso contrário coloca '%'
+                const suffix = entry.target.querySelector('#statClientes') ? '+' : '%';
                 animateCounter(entry.target, t, suffix);
                 observer.unobserve(entry.target);
             }
         });
     }, { threshold: 0.5 });
-
+    
     items.forEach(i => observer.observe(i));
 })();
 
@@ -646,4 +648,3 @@ const rand = (min, max) => Math.random() * (max - min) + min;
         obs.observe(creditEl);
     }
 })();
-
